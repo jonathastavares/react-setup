@@ -1,0 +1,48 @@
+.calculator {
+  max-width: 20%;
+  display: grid;
+}
+
+button {
+  border-style: solid;
+  border-width: 1px;
+  cursor: pointer;
+  padding: 10px;
+  border-color: #bdbdbd;
+}
+
+.quote {
+  background-color: gray;
+  color: white;
+  height: 50px;
+  text-align: right;
+  border-style: unset;
+  font-size: 30px;
+}
+
+.quote::placeholder {
+  color: white;
+}
+
+.number {
+  background-color: #e0e0e0;
+}
+
+.number-section {
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
+
+.operation-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.operation {
+  background-color: orange;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: 75% auto;
+}
