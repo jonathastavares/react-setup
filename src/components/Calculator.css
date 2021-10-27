@@ -28,6 +28,10 @@ button {
   background-color: #e0e0e0;
 }
 
+.number:hover {
+  background-color: #b8b8b8;
+}
+
 .number-section {
   display: grid;
   grid-template-columns: auto auto auto;
@@ -40,6 +44,10 @@ button {
 
 .operation {
   background-color: orange;
+}
+
+.operation:hover {
+  background-color: rgb(211, 137, 0);
 }
 
 .buttons {
