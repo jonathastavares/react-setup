@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import calculate from '../logic/calculate';
 import './Calculator.css';
@@ -34,51 +34,39 @@ Op.propTypes = {
   cb: PropTypes.func.isRequired,
 };
 
-class Calculator extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      total: 0,
-      next: 0,
-    };
-    this.handleClick = this.handleClick.bind(this);
-    this.numberSectionButtons = [];
-    ['AC', '+/-', '%', 7, 8, 9, 4, 5, 6, 1, 2, 3, 0, '.'].forEach((el) => {
-      this.numberSectionButtons.push(<Number num={`${el}`} cb={this.handleClick} />);
-    });
-  }
+function Calculator() {
+  const [state, setState] = useState({
+    total: 0,
+    next: 0,
+    operation: '',
+  });
+  const numberSectionButtons = [];
+  ['AC', '+/-', '%', 7, 8, 9, 4, 5, 6, 1, 2, 3, 0, '.'].forEach((el) => {
+    numberSectionButtons.push(<Number
+      num={`${el}`}
+      cb={() => {
+        setState((old) => calculate(old, `${el}`));
+      }}
+    />);
+  });
 
-  handleClick(e) {
-    this.setState((oldState) => calculate(oldState, e.target.innerText));
-  }
-
-  render() {
-    let val = 0;
-    const { total, next } = this.state;
-    if (next) {
-      val = next;
-    } else if (total) {
-      val = total;
-    }
-    return (
-      <div className="calculator">
-        <input className="quote" placeholder="0" value={val} readOnly />
-        <div className="buttons">
-          <div className="number-section">
-            {this.numberSectionButtons}
-          </div>
-          <div className="operation-section">
-            <Op operation="÷" cb={this.handleClick} />
-            <Op operation="x" cb={this.handleClick} />
-            <Op operation="-" cb={this.handleClick} />
-            <Op operation="+" cb={this.handleClick} />
-            <Op operation="=" cb={this.handleClick} />
-          </div>
+  return (
+    <div className="calculator">
+      <input className="quote" placeholder="0" value={state.next ? state.next : state.total} readOnly />
+      <div className="buttons">
+        <div className="number-section">
+          {numberSectionButtons}
+        </div>
+        <div className="operation-section">
+          <Op operation="÷" cb={() => setState((old) => ({ ...old, ...calculate(old, '÷') }))} />
+          <Op operation="x" cb={() => setState((old) => ({ ...old, ...calculate(old, 'x') }))} />
+          <Op operation="-" cb={() => setState((old) => ({ ...old, ...calculate(old, '-') }))} />
+          <Op operation="+" cb={() => setState((old) => ({ ...old, ...calculate(old, '+') }))} />
+          <Op operation="=" cb={() => setState((old) => ({ ...old, ...calculate(old, '=') }))} />
         </div>
       </div>
-
-    );
-  }
+    </div>
+  );
 }
 
 export default Calculator;
